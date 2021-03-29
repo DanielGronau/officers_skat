@@ -1,0 +1,161 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Game/Game.gd" type="Script" id=1]
+[ext_resource path="res://Font/default50.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Font/default30.tres" type="DynamicFont" id=3]
+[ext_resource path="res://Cards/bells.png" type="Texture" id=4]
+[ext_resource path="res://Cards/acorn.png" type="Texture" id=5]
+[ext_resource path="res://Cards/hearts.png" type="Texture" id=6]
+[ext_resource path="res://Cards/grand.png" type="Texture" id=7]
+[ext_resource path="res://Cards/leaves.png" type="Texture" id=8]
+
+[node name="Game" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -1.41431
+margin_right = -1.41431
+margin_bottom = -0.200073
+color = Color( 0.0627451, 0.376471, 0.0627451, 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="BackButton" type="Button" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1634.83
+margin_top = 1040.86
+margin_right = -66.1697
+margin_bottom = -82.1389
+custom_fonts/font = ExtResource( 2 )
+text = "Back to Menu"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Suits" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1710.97
+margin_top = 576.429
+margin_right = -140.027
+margin_bottom = -302.571
+custom_constants/separation = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SuitLabel" type="Label" parent="Suits"]
+margin_right = 197.0
+margin_bottom = 43.0
+custom_fonts/font = ExtResource( 3 )
+text = "Select Trump"
+
+[node name="Acorn" type="Button" parent="Suits"]
+margin_top = 48.0
+margin_right = 197.0
+margin_bottom = 105.0
+custom_fonts/font = ExtResource( 3 )
+text = "  Acorn"
+icon = ExtResource( 5 )
+align = 0
+
+[node name="Leaves" type="Button" parent="Suits"]
+margin_top = 110.0
+margin_right = 197.0
+margin_bottom = 159.0
+custom_fonts/font = ExtResource( 3 )
+text = " Leaves"
+icon = ExtResource( 8 )
+align = 0
+
+[node name="Hearts" type="Button" parent="Suits"]
+margin_top = 164.0
+margin_right = 197.0
+margin_bottom = 213.0
+custom_fonts/font = ExtResource( 3 )
+text = " Hearts"
+icon = ExtResource( 6 )
+align = 0
+
+[node name="Bells" type="Button" parent="Suits"]
+margin_top = 218.0
+margin_right = 197.0
+margin_bottom = 267.0
+custom_fonts/font = ExtResource( 3 )
+text = " Bells"
+icon = ExtResource( 4 )
+align = 0
+
+[node name="Grand" type="Button" parent="Suits"]
+margin_top = 272.0
+margin_right = 197.0
+margin_bottom = 321.0
+custom_fonts/font = ExtResource( 3 )
+text = " Grand"
+icon = ExtResource( 7 )
+align = 0
+
+[node name="HeapPos" type="ReferenceRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1330.48
+margin_top = 473.165
+margin_right = -577.519
+margin_bottom = -476.835
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Player1Rect" type="ReferenceRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 130.0
+margin_top = 640.0
+margin_right = -978.0
+margin_bottom = -40.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Player2Rect" type="ReferenceRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 130.0
+margin_top = 39.0
+margin_right = -978.0
+margin_bottom = -641.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Player1Container" type="HBoxContainer" parent="."]
+margin_left = 1169.55
+margin_top = 1055.0
+margin_right = 1469.55
+margin_bottom = 1155.0
+
+[node name="Player2Container" type="HBoxContainer" parent="."]
+margin_left = 1139.86
+margin_top = 39.0
+margin_right = 1439.86
+margin_bottom = 139.0
+[connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="pressed" from="Suits/Acorn" to="." method="_on_Acorn_pressed"]
+[connection signal="pressed" from="Suits/Leaves" to="." method="_on_Leaves_pressed"]
+[connection signal="pressed" from="Suits/Hearts" to="." method="_on_Hearts_pressed"]
+[connection signal="pressed" from="Suits/Bells" to="." method="_on_Bells_pressed"]
+[connection signal="pressed" from="Suits/Grand" to="." method="_on_Grand_pressed"]
