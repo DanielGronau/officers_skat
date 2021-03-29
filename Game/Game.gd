@@ -1,10 +1,7 @@
 extends Control
 
-enum Loc {HEAP, PLAYER1, PLAYER2, TRICK1, TRICK2}
-
 const cols = [200, 400, 600, 800]
 const rows = [1035, 165, 765, 435]
-var player: int = 1
 
 func _ready():
 	prepareCards(Vector2(1400, 575))
@@ -43,20 +40,22 @@ func deal(i: int, open: bool):
 		var y = (i % 16) / 4
 		var c = Global.cards[i]
 		if y % 2 == 0:
-			c.loc = Loc.PLAYER1
+			c.loc = Global.Loc.PLAYER1
 		else:
-			c.loc = Loc.PLAYER2
+			c.loc = Global.Loc.PLAYER2
 		if open:	
 			deal_card(c, Vector2(cols[x]+10, rows[y]+10), true)
+			c.below = Global.cards[i-16]
 		else:
 			deal_card(c, Vector2(cols[x], rows[y]), false)
 		
 func deal_card(card: Node, pos: Vector2, open: bool):
 	if open:
-		card.flip()
 		card.z_index = 10
 	else:
 		card.z_index = 9	
+	if card.open != open:
+			card.flip()
 	var animation = Animation.new()
 	var track_index = animation.add_track(Animation.TYPE_VALUE)
 	animation.track_set_path(track_index, card.name + ":position")
@@ -75,7 +74,37 @@ func deal_card(card: Node, pos: Vector2, open: bool):
 	player.queue_free()
 	
 func _on_card_clicked(card: Node2D):
-	print("yeah! " + card.name)	
+	if (card.loc == Global.Loc.PLAYER1 && Global.player1.moving) || (card.loc == Global.Loc.PLAYER2 && Global.player2.moving):
+		if Global.card1_played == null:
+			Global.card1_played = card
+			Global.change_moving()
+			card.position = Vector2(1400, 600)
+			card.z_index = 9
+		elif Global.card2_played == null && can_play(card):		
+			Global.card2_played = card
+			card.position = Vector2(1470, 700)
+			card.z_index = 10
+			yield(get_tree().create_timer(1), "timeout")
+			var loc = Global.who_gets_trick()
+			card.loc = loc
+			Global.card1_played.loc = loc
+			if (loc == Global.Loc.TRICK1 && Global.player2.moving) || (loc == Global.Loc.TRICK2 && Global.player1.moving):
+				Global.change_moving()
+			card.visible = false
+			Global.card1_played.visible = false
+			if card.below != null:
+				card.below.flip()
+			if Global.card1_played.below != null:
+				Global.card1_played.below.flip()
+			Global.card1_played = null	
+			Global.card2_played = null
+			check_game_end()	
+						
+func can_play(card: Node2D):
+	return true			
+	
+func check_game_end():
+	pass		
 
 func _on_Acorn_pressed():
 	if Global.trump == Global.Trump.NONE:

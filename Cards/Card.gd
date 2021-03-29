@@ -6,6 +6,7 @@ var suit: int = 0
 var value: int = 0
 var open: bool = false
 var loc = Global.Loc.HEAP
+var below: Node2D = null
 
 const suit2row = {
 	0: 4,
