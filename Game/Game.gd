@@ -2,13 +2,12 @@ extends Control
 
 enum Loc {HEAP, PLAYER1, PLAYER2, TRICK1, TRICK2}
 
-var cards: Array = Array()
 const cols = [200, 400, 600, 800]
 const rows = [1035, 165, 765, 435]
 var player: int = 1
 
 func _ready():
-	createCards(Vector2(1400, 575))
+	prepareCards(Vector2(1400, 575))
 	$Player1Container.add_child(Global.player1)
 	$Player2Container.add_child(Global.player2)
 	deal_backsides()
@@ -16,19 +15,11 @@ func _ready():
 func _on_BackButton_pressed():
 	get_tree().change_scene("res://Menu/Menu.tscn")
 	
-func createCards(point: Vector2):
-	var scene = preload("res://Cards/Card.tscn")
-	for suite in 4:
-		for value in 8:
-			var card = scene.instance()
-			card.set_position(point)
-			card.name = "Card" + str(suite) + str(value)
-			cards.append(card)
-			add_child(card)
-			card.connect("card_clicked", self, "_on_card_clicked")
-			card.init(suite, value, false)
-	randomize()		
-	cards.shuffle()
+func prepareCards(point: Vector2):
+	for card in Global.cards:
+		card.set_position(point)
+		add_child(card)
+		card.connect("card_clicked", self, "_on_card_clicked")
 	
 func deal_backsides():
 	for i in 16:
@@ -50,7 +41,7 @@ func deal_rest_frontsides():
 func deal(i: int, open: bool):
 		var x = (i % 16) % 4
 		var y = (i % 16) / 4
-		var c = cards[i]
+		var c = Global.cards[i]
 		if y % 2 == 0:
 			c.loc = Loc.PLAYER1
 		else:

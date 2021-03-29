@@ -2,27 +2,33 @@ extends Node2D
 
 signal card_clicked(card)
 
-enum Loc {HEAP, PLAYER1, PLAYER2, TRICK1, TRICK2}
-
 var suit: int = 0
 var value: int = 0
 var open: bool = false
-var loc = Loc.HEAP
+var loc = Global.Loc.HEAP
+
+const suit2row = {
+	0: 4,
+	1: 3,
+	2: 1,
+	3: 2 
+}
 
 func _ready():
-	init(0,0,false)
+	pass
 
 func init(_suit: int, _value: int, _open: bool):
 	suit = _suit
 	value = _value
 	open = _open
-	if open: 
-		$Sprite.set_texture(load("res://Cards/row-" + str(suit + 1) + "-col-" + str(value + 1) + ".png"))
-	else:
-		$Sprite.set_texture(load("res://Cards/cardback.png"))
+	$Front.set_texture(load("res://Cards/row-" + str(suit2row[_suit]) + "-col-" + str(value + 1) + ".png"))
+	if (open) :
+		flip()
 
 func flip():
-	init(suit, value, ! open) 
+	open = ! open
+	$Front.visible = open
+	$Back.visible = ! open
 	
 func clicked():
 	emit_signal("card_clicked", self)	
