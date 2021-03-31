@@ -9,8 +9,8 @@ enum Value {SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE }
 var player1: Node2D
 var player2: Node2D
 var cards: Array = Array()
-var card1_played: Node2D = null
-var card2_played: Node2D = null
+var card1_played: Card = null
+var card2_played: Card = null
 
 var trump: int = Trump.NONE
 
@@ -39,8 +39,8 @@ func who_gets_trick():
 	var suit2 = card2_played.suit
 	var val1 = card1_played.value
 	var val2 = card2_played.value
-	var trump1 = val1 == Value.JACK || suit1 == trump
-	var trump2 = val2 == Value.JACK || suit2 == trump
+	var trump1 = card1_played.is_trump()
+	var trump2 = card2_played.is_trump()
 	if trump1:
 		if trump2:
 			if val1 == Value.JACK:

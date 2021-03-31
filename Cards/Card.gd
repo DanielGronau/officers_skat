@@ -1,12 +1,14 @@
 extends Node2D
 
+class_name Card
+
 signal card_clicked(card)
 
 var suit: int = 0
 var value: int = 0
 var open: bool = false
 var loc = Global.Loc.HEAP
-var below: Node2D = null
+var below: Card = null
 
 const suit2row = {
 	0: 4,
@@ -32,4 +34,7 @@ func flip():
 	$Back.visible = ! open
 	
 func clicked():
-	emit_signal("card_clicked", self)	
+	emit_signal("card_clicked", self)
+	
+func is_trump():
+	return value == Global.Value.JACK || suit == Global.trump
