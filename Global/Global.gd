@@ -28,36 +28,16 @@ func createCards():
 	randomize()		
 	cards.shuffle()	
 	
-func change_moving():
-	player1.moving = ! player1.moving
-	player2.moving = ! player2.moving
+func show_players(switch: bool):
+	if switch:
+		player1.moving = ! player1.moving
+		player2.moving = ! player2.moving
 	player1.show_moving()
 	player2.show_moving()
 	
 func who_gets_trick():
-	var suit1 = card1_played.suit
-	var suit2 = card2_played.suit
-	var val1 = card1_played.value
-	var val2 = card2_played.value
-	var trump1 = card1_played.is_trump()
-	var trump2 = card2_played.is_trump()
-	if trump1:
-		if trump2:
-			if val1 == Value.JACK:
-				if val2 == Value.JACK && suit1 > suit2:
-					return card2_played.loc + 2	
-				else:
-					return card1_played.loc + 2	
-			else:
-				if val2 == Value.JACK || val1 < val2:
-					return card2_played.loc + 2
-				else:
-					return card1_played.loc + 2
-		else:
-			return card1_played.loc + 2
-	else: 
-		if trump2 || (suit1 == suit2 && val1 < val2):
-			return card2_played.loc + 2
-		else:
-			return card1_played.loc + 2
+	if card2_played.overtakes(card1_played):
+		return card2_played.loc + 2
+	else:
+		return card1_played.loc + 2		
 

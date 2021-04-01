@@ -73,11 +73,11 @@ func deal_card(card: Node, pos: Vector2, open: bool):
 	remove_child(player)
 	player.queue_free()
 	
-func _on_card_clicked(card: Node2D):
+func _on_card_clicked(card: Card):
 	if (card.loc == Global.Loc.PLAYER1 && Global.player1.moving) || (card.loc == Global.Loc.PLAYER2 && Global.player2.moving):
 		if Global.card1_played == null:
 			Global.card1_played = card
-			Global.change_moving()
+			Global.show_players(true)
 			card.position = Vector2(1400, 600)
 			card.z_index = 9
 		elif Global.card2_played == null && can_play(card):		
@@ -88,8 +88,14 @@ func _on_card_clicked(card: Node2D):
 			var loc = Global.who_gets_trick()
 			card.loc = loc
 			Global.card1_played.loc = loc
-			if (loc == Global.Loc.TRICK1 && Global.player2.moving) || (loc == Global.Loc.TRICK2 && Global.player1.moving):
-				Global.change_moving()
+			if (loc == Global.Loc.TRICK1):
+				Global.player1.trick_points += card.trick_value() + Global.card1_played.trick_value()
+				print(Global.card1_played.say() + " " + card.say() + " to Player1")
+			else:	
+				Global.player2.trick_points += card.trick_value() + Global.card1_played.trick_value()
+				print(Global.card1_played.say() + " " + card.say() + " to Player2")
+			Global.show_players((Global.player1.moving && loc == Global.Loc.TRICK2) 
+				|| (Global.player2.moving && loc == Global.Loc.TRICK1))
 			card.visible = false
 			Global.card1_played.visible = false
 			if card.below != null:
