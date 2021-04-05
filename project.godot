@@ -13,9 +13,15 @@ _global_script_classes=[ {
 "class": "Card",
 "language": "GDScript",
 "path": "res://Cards/Card.gd"
+}, {
+"base": "Node2D",
+"class": "Player",
+"language": "GDScript",
+"path": "res://Player/Player.gd"
 } ]
 _global_script_class_icons={
-"Card": ""
+"Card": "",
+"Player": ""
 }
 
 [application]

@@ -2,12 +2,12 @@ extends Node
 
 enum Loc {HEAP, PLAYER1, PLAYER2, TRICK1, TRICK2}
 enum Trump {NONE = -1, ACORN, LEAVES, HEARTS, BELLS, GRAND}
-enum PlayerType { HUMAN, WEAK_AI, MEDIUM_AI, STRONG_AI }
+enum PlayerType {HUMAN, WEAK_AI, MEDIUM_AI, STRONG_AI }
 enum Suit {ACORN, LEAVES, HEARTS, BELLS}
 enum Value {SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE }
 
-var player1: Node2D
-var player2: Node2D
+var player1: Player
+var player2: Player
 var cards: Array = Array()
 var card1_played: Card = null
 var card2_played: Card = null

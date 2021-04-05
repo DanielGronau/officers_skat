@@ -1,5 +1,7 @@
 extends Node2D
 
+class_name Player
+
 var player_name: String = "Player"
 var type: int
 var moving: bool
