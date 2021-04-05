@@ -91,23 +91,27 @@ func second_card_played(card1: Card, card2: Card) -> void:
 	animate_card(card2, Vector2(1470, 700), false, 3.0)
 	card2.z_index = 10
 	yield(get_tree().create_timer(1), "timeout")
-	var loc = Global.who_gets_trick()
-	card2.loc = loc
-	card1.loc = loc
-	if (loc == Global.Loc.TRICK1):
-		Global.player1.trick_points += card1.trick_value() + card2.trick_value()
-		print(card1.say() + " " + card2.say() + " to Player1")
-	else:	
-		Global.player2.trick_points += card1.trick_value() + card2.trick_value()
-		print(card1.say() + " " + card2.say() + " to Player2")
-	Global.show_players((Global.player1.moving && loc == Global.Loc.TRICK2) 
-		|| (Global.player2.moving && loc == Global.Loc.TRICK1))
-	card1.visible = false
-	card2.visible = false
 	if card1.below != null:
 		card1.below.flip()
 	if card2.below != null:
 		card2.below.flip()
+	var loc = Global.who_gets_trick()
+	card2.loc = loc
+	card1.loc = loc
+	card1.flip()
+	card2.flip()
+	if (loc == Global.Loc.TRICK1):
+		Global.player1.trick_points += card1.trick_value() + card2.trick_value()
+		print(card1.say() + " " + card2.say() + " to Player1")
+		animate_card(card1, Vector2(1550, 1035), false, 2.0)
+		animate_card(card2, Vector2(1550, 1035), false, 2.0)
+	else:	
+		Global.player2.trick_points += card1.trick_value() + card2.trick_value()
+		print(card1.say() + " " + card2.say() + " to Player2")
+		animate_card(card1, Vector2(1550, 165), false, 2.0)
+		animate_card(card2, Vector2(1550, 165), false, 2.0)
+	Global.show_players((Global.player1.moving && loc == Global.Loc.TRICK2) 
+		|| (Global.player2.moving && loc == Global.Loc.TRICK1))
 	Global.card1_played = null	
 	Global.card2_played = null
 	check_game_end()

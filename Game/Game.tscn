@@ -33,14 +33,13 @@ __meta__ = {
 [node name="BackButton" type="Button" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 1634.83
-margin_top = 1040.86
-margin_right = -66.1697
-margin_bottom = -82.1389
+margin_left = 1711.0
+margin_top = 1041.0
+margin_right = -140.0
+margin_bottom = -81.0
 custom_fonts/font = ExtResource( 2 )
-text = "Back to Menu"
+text = "Back"
 __meta__ = {
-"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -115,6 +114,7 @@ margin_top = 473.165
 margin_right = -577.519
 margin_bottom = -476.835
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -143,16 +143,22 @@ __meta__ = {
 }
 
 [node name="Player1Container" type="HBoxContainer" parent="."]
-margin_left = 1169.55
-margin_top = 1055.0
-margin_right = 1469.55
-margin_bottom = 1155.0
+margin_left = 1118.64
+margin_top = 1040.86
+margin_right = 1418.64
+margin_bottom = 1140.86
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Player2Container" type="HBoxContainer" parent="."]
-margin_left = 1139.86
+margin_left = 1118.64
 margin_top = 39.0
-margin_right = 1439.86
+margin_right = 1418.64
 margin_bottom = 139.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
 [connection signal="pressed" from="Suits/Acorn" to="." method="_on_Acorn_pressed"]
 [connection signal="pressed" from="Suits/Leaves" to="." method="_on_Leaves_pressed"]
