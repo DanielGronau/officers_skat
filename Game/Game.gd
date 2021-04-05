@@ -4,7 +4,7 @@ const cols = [200, 400, 600, 800]
 const rows = [1035, 165, 765, 435]
 
 func _ready():
-	prepareCards(Vector2(1400, 575))
+	initCards(Vector2(1400, 575))
 	$Player1Container.add_child(Global.player1)
 	$Player2Container.add_child(Global.player2)
 	deal_backsides()
@@ -12,7 +12,7 @@ func _ready():
 func _on_BackButton_pressed():
 	get_tree().change_scene("res://Menu/Menu.tscn")
 	
-func prepareCards(point: Vector2):
+func initCards(point: Vector2):
 	for card in Global.cards:
 		card.set_position(point)
 		add_child(card)
@@ -44,37 +44,35 @@ func deal(i: int, open: bool):
 		else:
 			c.loc = Global.Loc.PLAYER2
 		if open:	
-			deal_card(c, Vector2(cols[x]+10, rows[y]+10), true)
+			c.z_index = 10
+			c.flip()
+			animate_card(c, Vector2(cols[x]+10, rows[y]+10), true)
 			c.below = Global.cards[i-16]
 		else:
-			deal_card(c, Vector2(cols[x], rows[y]), false)
+			c.z_index = 9	
+			animate_card(c, Vector2(cols[x], rows[y]), true)
 		
-func deal_card(card: Node, pos: Vector2, open: bool):
-	if open:
-		card.z_index = 10
-	else:
-		card.z_index = 9	
-	if card.open != open:
-			card.flip()
+func animate_card(card: Node, pos: Vector2, rotate: bool, speed: float = 1.0):
 	var animation = Animation.new()
 	var track_index = animation.add_track(Animation.TYPE_VALUE)
 	animation.track_set_path(track_index, card.name + ":position")
 	animation.track_insert_key(track_index, 0.0, card.position)
 	animation.track_insert_key(track_index, 1, pos)
-	track_index = animation.add_track(Animation.TYPE_VALUE)
-	animation.track_set_path(track_index, card.name + ":rotation_degrees")
-	animation.track_insert_key(track_index, 0.0, 0)
-	animation.track_insert_key(track_index, 1, 360)
+	if rotate:
+		track_index = animation.add_track(Animation.TYPE_VALUE)
+		animation.track_set_path(track_index, card.name + ":rotation_degrees")
+		animation.track_insert_key(track_index, 0.0, 0)
+		animation.track_insert_key(track_index, 1, 360)
 	var player = AnimationPlayer.new()
 	add_child(player)
 	player.add_animation(card.name, animation)
-	player.play(card.name)
+	player.play(card.name, -1, speed)
 	yield(player, "animation_finished")
 	remove_child(player)
 	player.queue_free()
 	
 func _on_card_clicked(card: Card) -> void:
-	if (card.loc == Global.Loc.PLAYER1 && Global.player1.moving) || (card.loc == Global.Loc.PLAYER2 && Global.player2.moving):
+	if Global.trump != null && (card.loc == Global.Loc.PLAYER1 && Global.player1.moving) || (card.loc == Global.Loc.PLAYER2 && Global.player2.moving):
 		if Global.card1_played == null:
 			first_card_played(card)
 		elif Global.card2_played == null && can_play(card):
@@ -83,12 +81,14 @@ func _on_card_clicked(card: Card) -> void:
 func first_card_played(card: Card) -> void:
 	Global.card1_played = card
 	Global.show_players(true)
-	card.position = Vector2(1400, 600)
+	card.z_index = 100
+	animate_card(card, Vector2(1400, 600), false, 3.0)
 	card.z_index = 9
 	
 func second_card_played(card1: Card, card2: Card) -> void:	
 	Global.card2_played = card2
-	card2.position = Vector2(1470, 700)
+	card2.z_index = 100
+	animate_card(card2, Vector2(1470, 700), false, 3.0)
 	card2.z_index = 10
 	yield(get_tree().create_timer(1), "timeout")
 	var loc = Global.who_gets_trick()
@@ -116,8 +116,8 @@ func can_play(card: Node2D):
 	return true			
 	
 func check_game_end():
-	pass		
-
+	pass
+	
 func _on_Acorn_pressed():
 	if Global.trump == Global.Trump.NONE:
 		trump_chosen(Global.Trump.ACORN)
