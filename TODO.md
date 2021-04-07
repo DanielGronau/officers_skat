@@ -1,4 +1,3 @@
-- trump trick was not correct (jack didn't win over trump color)
 - z-order when playing card
 - z-order when moving cards to trick pile
 - check on end of game
