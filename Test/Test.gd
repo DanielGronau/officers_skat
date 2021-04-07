@@ -68,6 +68,12 @@ func card_overtakes():
 		push_error(card2.say() + " should overtake " + card1.say() + " (Leaves is trump)")	
 	if (card1.overtakes(card2)):
 		push_error(card1.say() + " shouldn't overtake " + card2.say() + " (Leaves is trump)")	
+	card1.init(Global.Suit.LEAVES, Global.Value.JACK, false)	
+	card2.init(Global.Suit.ACORN, Global.Value.JACK, false)
+	if (!card2.overtakes(card1)):
+		push_error(card2.say() + " should overtake " + card1.say() + " (Leaves is trump)")	
+	if (card1.overtakes(card2)):
+		push_error(card1.say() + " shouldn't overtake " + card2.say() + " (Leaves is trump)")	
 	# non-trump and trump
 	card1.init(Global.Suit.ACORN, Global.Value.ACE, false)
 	card2.init(Global.Suit.LEAVES, Global.Value.EIGHT, false)

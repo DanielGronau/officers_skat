@@ -42,7 +42,7 @@ func overtakes(card: Card) -> bool:
 		return false
 	elif ! card.is_trump() && is_trump(): # made the trick with a trump
 		return true
-	elif (card.is_trump() && ! is_trump()) || suit == card.suit: # same suit or trump
+	elif (card.is_trump() && is_trump()) || suit == card.suit: # same suit or trump
 		return order_value() > card.order_value()
 	else: # throw away on non-trump
 		return false
