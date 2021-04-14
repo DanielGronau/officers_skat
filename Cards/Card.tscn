@@ -14,3 +14,5 @@ region_rect = Rect2( 0, 0, 140, 250 )
 [node name="Front" type="Sprite" parent="."]
 visible = false
 script = ExtResource( 3 )
+
+[node name="Tween" type="Tween" parent="."]

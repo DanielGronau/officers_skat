@@ -52,24 +52,8 @@ func deal(i: int, open: bool):
 			c.z_index = 9	
 			animate_card(c, Vector2(cols[x], rows[y]), true)
 		
-func animate_card(card: Node, pos: Vector2, rotate: bool, speed: float = 1.0):
-	var animation = Animation.new()
-	var track_index = animation.add_track(Animation.TYPE_VALUE)
-	animation.track_set_path(track_index, card.name + ":position")
-	animation.track_insert_key(track_index, 0.0, card.position)
-	animation.track_insert_key(track_index, 1, pos)
-	if rotate:
-		track_index = animation.add_track(Animation.TYPE_VALUE)
-		animation.track_set_path(track_index, card.name + ":rotation_degrees")
-		animation.track_insert_key(track_index, 0.0, 0)
-		animation.track_insert_key(track_index, 1, 360)
-	var player = AnimationPlayer.new()
-	add_child(player)
-	player.add_animation(card.name, animation)
-	player.play(card.name, -1, speed)
-	yield(player, "animation_finished")
-	remove_child(player)
-	player.queue_free()
+func animate_card(card: Card, pos: Vector2, duration: float = 1.0):
+	card.animate(pos, duration)
 	
 func _on_card_clicked(card: Card) -> void:
 	if Global.trump != null && (card.loc == Global.Loc.PLAYER1 && Global.player1.moving) || (card.loc == Global.Loc.PLAYER2 && Global.player2.moving):
@@ -82,13 +66,13 @@ func first_card_played(card: Card) -> void:
 	Global.card1_played = card
 	Global.show_players(true)
 	card.z_index = 100
-	animate_card(card, Vector2(1400, 600), false, 3.0)
+	animate_card(card, Vector2(1400, 600), 0.3)
 	card.z_index = 9
 	
 func second_card_played(card1: Card, card2: Card) -> void:	
 	Global.card2_played = card2
 	card2.z_index = 100
-	animate_card(card2, Vector2(1470, 700), false, 3.0)
+	animate_card(card2, Vector2(1470, 700), 0.3)
 	card2.z_index = 10
 	yield(get_tree().create_timer(1), "timeout")
 	if card1.below != null:
@@ -103,13 +87,13 @@ func second_card_played(card1: Card, card2: Card) -> void:
 	if (loc == Global.Loc.TRICK1):
 		Global.player1.trick_points += card1.trick_value() + card2.trick_value()
 		print(card1.say() + " " + card2.say() + " to Player1")
-		animate_card(card1, Vector2(1550, 1035), false, 2.0)
-		animate_card(card2, Vector2(1550, 1035), false, 2.0)
+		animate_card(card1, Vector2(1550, 1035), 0.5)
+		animate_card(card2, Vector2(1550, 1035), 0.5)
 	else:	
 		Global.player2.trick_points += card1.trick_value() + card2.trick_value()
 		print(card1.say() + " " + card2.say() + " to Player2")
-		animate_card(card1, Vector2(1550, 165), false, 2.0)
-		animate_card(card2, Vector2(1550, 165), false, 2.0)
+		animate_card(card1, Vector2(1550, 165), 0.5)
+		animate_card(card2, Vector2(1550, 165), 0.5)
 	Global.show_players((Global.player1.moving && loc == Global.Loc.TRICK2) 
 		|| (Global.player2.moving && loc == Global.Loc.TRICK1))
 	Global.card1_played = null	

@@ -9,6 +9,7 @@ var value: int = 0
 var open: bool = false
 var loc = Global.Loc.HEAP
 var below: Card = null
+onready var tween = get_node("Tween")
 
 const suit2row = [4, 3, 1, 2]
 const val2trick = [0, 0, 0, 10, 2, 3, 4, 11]
@@ -61,5 +62,9 @@ func trick_value() -> int:
 	return val2trick[value]
 	
 func say() -> String:
-	return val2say[value] + " of " + suit2say[suit]				
+	return val2say[value] + " of " + suit2say[suit]
+	
+func animate(to: Vector2, duration: float, rotate: bool = false) -> void:
+	tween.interpolate_property(self, "position", get_global_position(), to, duration, Tween.TRANS_CIRC, Tween.EASE_OUT)
+	tween.start()					
 

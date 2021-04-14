@@ -39,5 +39,7 @@ func who_gets_trick():
 	if card2_played.overtakes(card1_played):
 		return card2_played.loc + 2
 	else:
-		return card1_played.loc + 2		
+		return card1_played.loc + 2
+		
+		
 
