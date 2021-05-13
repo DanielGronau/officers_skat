@@ -11,6 +11,7 @@ var player2: Player
 var cards: Array = Array()
 var card1_played: Card = null
 var card2_played: Card = null
+var game_started_by: int = 1
 
 var trump: int = Trump.NONE
 

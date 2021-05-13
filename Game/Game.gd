@@ -68,8 +68,19 @@ func first_card_played(card: Card) -> void:
 	card.z_index = 100
 	animate_card(card, Vector2(1400, 600), 0.3)
 	card.z_index = 9
+	var p2 = 0
+	if card.loc == Global.Loc.PLAYER1:
+		p2 = Global.Loc.PLAYER2
+	else:
+		p2 = Global.Loc.PLAYER1
+	for c in Global.cards:
+		if c.open && c.loc == p2 && !can_play(c):
+			c.dark()	
 	
 func second_card_played(card1: Card, card2: Card) -> void:	
+	for c in Global.cards:
+		if c.open:
+			c.bright()	
 	Global.card2_played = card2
 	card2.z_index = 100
 	animate_card(card2, Vector2(1470, 700), 0.3)
@@ -100,8 +111,22 @@ func second_card_played(card1: Card, card2: Card) -> void:
 	Global.card2_played = null
 	check_game_end()
 						
-func can_play(card: Node2D):
-	return true			
+func can_play(card2: Node2D):
+	var card1 = Global.card1_played
+	if card1.is_trump():
+		if card2.is_trump():
+			return true # has trump and played it
+		for c in Global.cards:
+			if c.loc == card2.loc && c.open && c.is_trump():
+				return false # has trump but didn't play it 
+		return true	# can play any card	
+	else:	
+		if !card2.is_trump() && card1.suit == card2.suit:
+			return true # has same suit and played it
+		for c in Global.cards:
+			if c.loc == card2.loc && c.open && !c.is_trump() && c.suit == card1.suit:
+				return false # has same suite but didn't play it 
+		return true # can play any card	
 	
 func check_game_end():
 	pass

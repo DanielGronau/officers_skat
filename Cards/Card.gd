@@ -67,4 +67,11 @@ func say() -> String:
 func animate(to: Vector2, duration: float, rotate: bool = false) -> void:
 	tween.interpolate_property(self, "position", get_global_position(), to, duration, Tween.TRANS_CIRC, Tween.EASE_OUT)
 	tween.start()					
+	
+func bright():
+	modulate = Color.white
+
+func dark():
+	modulate = Color.gray
+	
 
