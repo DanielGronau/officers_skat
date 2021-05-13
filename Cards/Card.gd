@@ -4,10 +4,15 @@ class_name Card
 
 signal card_clicked(card)
 
+const Loc = preload("res://Game/Loc.gd")
+const Trump = preload("res://Game/Trump.gd")
+const Suit = preload("res://Game/Suit.gd")
+const Value = preload("res://Game/Value.gd")
+
 var suit: int = 0
 var value: int = 0
 var open: bool = false
-var loc = Global.Loc.HEAP
+var loc = Loc.HEAP
 var below: Card = null
 onready var tween = get_node("Tween")
 
@@ -35,25 +40,25 @@ func flip() -> void:
 func clicked() -> void:
 	emit_signal("card_clicked", self)
 	
-func is_trump() -> bool:
-	return value == Global.Value.JACK || suit == Global.trump
+func is_trump(trump: int) -> bool:
+	return value == Value.JACK || suit == trump
 	
-func overtakes(card: Card) -> bool:
-	if card.is_trump() && ! is_trump(): # throw away on a trump
+func overtakes(card: Card, trump: int) -> bool:
+	if card.is_trump(trump) && ! is_trump(trump): # throw away on a trump
 		return false
-	elif ! card.is_trump() && is_trump(): # made the trick with a trump
+	elif ! card.is_trump(trump) && is_trump(trump): # made the trick with a trump
 		return true
-	elif (card.is_trump() && is_trump()) || suit == card.suit: # same suit or trump
+	elif (card.is_trump(trump) && is_trump(trump)) || suit == card.suit: # same suit or trump
 		return order_value() > card.order_value()
 	else: # throw away on non-trump
 		return false
 	
 func order_value() -> int:
-	if value == Global.Value.JACK:
+	if value == Value.JACK:
 		return 20 - suit # ACORN-JACK = 20 ... BELLS-JACK = 17
-	elif value == Global.Value.TEN:
+	elif value == Value.TEN:
 		return 7	
-	elif value == Global.Value.ACE:
+	elif value == Value.ACE:
 		return 8	
 	else:
 		return value

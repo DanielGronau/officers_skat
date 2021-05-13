@@ -14,25 +14,51 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Cards/Card.gd"
 }, {
+"base": "Reference",
+"class": "Loc",
+"language": "GDScript",
+"path": "res://Game/Loc.gd"
+}, {
 "base": "Node2D",
 "class": "Player",
 "language": "GDScript",
 "path": "res://Player/Player.gd"
+}, {
+"base": "Reference",
+"class": "PlayerType",
+"language": "GDScript",
+"path": "res://Game/PlayerType.gd"
+}, {
+"base": "Reference",
+"class": "Suit",
+"language": "GDScript",
+"path": "res://Game/Suit.gd"
+}, {
+"base": "Reference",
+"class": "Trump",
+"language": "GDScript",
+"path": "res://Game/Trump.gd"
+}, {
+"base": "Reference",
+"class": "Value",
+"language": "GDScript",
+"path": "res://Game/Value.gd"
 } ]
 _global_script_class_icons={
 "Card": "",
-"Player": ""
+"Loc": "",
+"Player": "",
+"PlayerType": "",
+"Suit": "",
+"Trump": "",
+"Value": ""
 }
 
 [application]
 
 config/name="Officer's Skat"
-run/main_scene="res://Menu/Menu.tscn"
+run/main_scene="res://Game/Game.tscn"
 config/icon="res://icon.png"
-
-[autoload]
-
-Global="*res://Global/Global.gd"
 
 [display]
 
