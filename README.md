@@ -13,15 +13,13 @@ I won't implement multiplayer via network, that would be overkill (and then a we
 - show and animate cards
 - register card clicks
 - deal cards
-- human player can decide on trump color
+- human player vs human player
 
 # To do
 
-- implement human vs human game play
-- mark playable cards / gray out unplayable cards
-- sound FX
+- game end check and statistics
 - play multiple games with changing dealers
-- statistics
+- sound FX
 - implement AI
 - useful options
 - game installation
