@@ -76,7 +76,7 @@ func deal_4_frontsides():
 	for i in range(16, 20):
 		deal(i, true)
 		yield(get_tree().create_timer(0.5), "timeout")
-	$Suits.visible = true	
+	$Canvas/TrumpDialog.popup_centered()
 
 func deal_rest_frontsides():
 	for i in range(20, 32):
@@ -179,41 +179,9 @@ func can_play(card2: Node2D):
 func check_game_end():
 	pass
 	
-func _on_Acorn_pressed():
-	if trump == Trump.NONE:
-		trump_chosen(Trump.ACORN)
-		$Suits/Acorn.visible = true
-		deal_rest_frontsides()
-
-func _on_Leaves_pressed():
-	if trump == Trump.NONE:
-		trump_chosen(Trump.LEAVES)
-		$Suits/Leaves.visible = true
-		deal_rest_frontsides()
-		
-func _on_Hearts_pressed():
-	if trump == Trump.NONE:
-		trump_chosen(Trump.HEARTS)
-		$Suits/Hearts.visible = true
-		deal_rest_frontsides()
-
-func _on_Bells_pressed():
-	if trump == Trump.NONE:
-		trump_chosen(Trump.BELLS)
-		$Suits/Bells.visible = true
-		deal_rest_frontsides()
-
-func _on_Grand_pressed():
-	if trump == Trump.NONE:
-		trump_chosen(Trump.GRAND)
-		$Suits/Grand.visible = true
-		deal_rest_frontsides()
-				
-func trump_chosen(suit: int):
+func _on_trump_selected(suit: int):
 	trump = suit
-	$Suits/SuitLabel.text = "Trump Color"
-	$Suits/Acorn.visible = false
-	$Suits/Leaves.visible = false
-	$Suits/Hearts.visible = false
-	$Suits/Bells.visible = false
-	$Suits/Grand.visible = false
+	$Canvas/TrumpLabel.text = Trump.as_string(trump)
+	deal_rest_frontsides()
+	
+	
