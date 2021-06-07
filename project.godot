@@ -30,6 +30,11 @@ _global_script_classes=[ {
 "path": "res://Game/PlayerType.gd"
 }, {
 "base": "Reference",
+"class": "State",
+"language": "GDScript",
+"path": "res://Game/State.gd"
+}, {
+"base": "Reference",
 "class": "Suit",
 "language": "GDScript",
 "path": "res://Game/Suit.gd"
@@ -49,6 +54,7 @@ _global_script_class_icons={
 "Loc": "",
 "Player": "",
 "PlayerType": "",
+"State": "",
 "Suit": "",
 "Trump": "",
 "Value": ""

@@ -4,6 +4,7 @@ const Loc = preload("res://Game/Loc.gd")
 const Trump = preload("res://Game/Trump.gd")
 const Suit = preload("res://Game/Suit.gd")
 const Value = preload("res://Game/Value.gd")
+const State = preload("res://Game/State.gd")
 const PlayerType = preload("res://Game/PlayerType.gd")
 
 const cols = [200, 400, 600, 800]
@@ -16,6 +17,7 @@ var card1_played: Card = null
 var card2_played: Card = null
 var game_started_by: int = 1
 var trump: int = Trump.NONE
+var state: int = State.CHOOSE_TRUMP
 
 func _ready():
 	createCards()
@@ -82,6 +84,7 @@ func deal_rest_frontsides():
 	for i in range(20, 32):
 		deal(i, true)
 		yield(get_tree().create_timer(0.5), "timeout")
+	state = State.FIRST_CARD	
 
 func deal(i: int, open: bool):
 		var x = (i % 16) % 4
@@ -105,9 +108,9 @@ func animate_card(card: Card, pos: Vector2, duration: float = 1.0):
 	
 func _on_card_clicked(card: Card) -> void:
 	if trump != null && (card.loc == Loc.PLAYER1 && player1.moving) || (card.loc == Loc.PLAYER2 && player2.moving):
-		if card1_played == null:
+		if state == State.FIRST_CARD:
 			first_card_played(card)
-		elif card2_played == null && can_play(card):
+		elif state == State.SECOND_CARD && can_play(card):
 			second_card_played(card1_played, card)		
 			
 func first_card_played(card: Card) -> void:
@@ -123,7 +126,8 @@ func first_card_played(card: Card) -> void:
 		p2 = Loc.PLAYER1
 	for c in cards:
 		if c.open && c.loc == p2 && !can_play(c):
-			c.dark()	
+			c.dark()
+	state = State.SECOND_CARD			
 	
 func second_card_played(card1: Card, card2: Card) -> void:	
 	for c in cards:
@@ -157,6 +161,7 @@ func second_card_played(card1: Card, card2: Card) -> void:
 		|| (player2.moving && loc == Loc.TRICK1))
 	card1_played = null	
 	card2_played = null
+	state = State.FIRST_CARD	
 	check_game_end()
 						
 func can_play(card2: Node2D):
@@ -181,6 +186,7 @@ func check_game_end():
 	
 func _on_trump_selected(suit: int):
 	trump = suit
+	state = State.DEAL_REMAINING
 	$Canvas/TrumpLabel.text = Trump.as_string(trump)
 	deal_rest_frontsides()
 	
