@@ -1,0 +1,101 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://src/game/Game.gd" type="Script" id=1]
+[ext_resource path="res://src/dialog/TrumpDialog.tscn" type="PackedScene" id=2]
+[ext_resource path="res://fonts/default50.tres" type="DynamicFont" id=3]
+
+[node name="Game" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -1.41431
+margin_right = -1.41431
+margin_bottom = -0.200073
+color = Color( 0.0627451, 0.376471, 0.0627451, 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Canvas" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="TrumpDialog" parent="Canvas" instance=ExtResource( 2 )]
+margin_left = 725.679
+margin_top = 288.0
+margin_right = 1163.68
+margin_bottom = 744.0
+popup_exclusive = true
+
+[node name="TrumpLabel" type="Label" parent="Canvas"]
+margin_left = 1628.66
+margin_top = 527.0
+margin_right = 1668.66
+margin_bottom = 598.0
+custom_fonts/font = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HeapPos" type="ReferenceRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1330.48
+margin_top = 473.165
+margin_right = -577.519
+margin_bottom = -476.835
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Player1Rect" type="ReferenceRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 130.0
+margin_top = 640.0
+margin_right = -978.0
+margin_bottom = -40.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Player2Rect" type="ReferenceRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 130.0
+margin_top = 39.0
+margin_right = -978.0
+margin_bottom = -641.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Player1Container" type="HBoxContainer" parent="."]
+margin_left = 1118.64
+margin_top = 1040.86
+margin_right = 1418.64
+margin_bottom = 1140.86
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Player2Container" type="HBoxContainer" parent="."]
+margin_left = 1118.64
+margin_top = 39.0
+margin_right = 1418.64
+margin_bottom = 139.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="trump_selected" from="Canvas/TrumpDialog" to="." method="_on_trump_selected"]

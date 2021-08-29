@@ -1,0 +1,4 @@
+class_name State
+
+enum { CHOOSE_TRUMP, DEAL_REMAINING, FIRST_CARD, SECOND_CARD, END }
+
